@@ -3,30 +3,33 @@ public class QuickSort {
 
 	public static void quicksort(int [] array, int left, int right) {
 
-		int pivot = partition(array, left, right);
+		int index = partition(array, left, right);
 		
-		if (left < pivot) {
-			quicksort(array, left, pivot - 1);
+		if (left < index - 1) {
+			quicksort(array, left, index - 1);
 		}
-		if (pivot < right) {
-			quicksort(array, pivot, right);
+		if (index < right) {
+			quicksort(array, index, right);
 		}
 	}
 	
 	public static int partition(int [] array, int left, int right) {
-		int pivot = array[left + right / 2];
+		int pivot = array[(left + right) / 2];
 		
-		while (array[left] < pivot) {
-			left++;
-		}
-		while (pivot < array[right]) {
-			right--;
-		}
-		
-		if (left < right) {
-			swap(array, left, right);
-			left++;
-			right--;
+		while (left <= right) {
+			
+			while (array[left] < pivot) {
+				left++;
+			}
+			while (pivot < array[right]) {
+				right--;
+			}
+			
+			if (left <= right) {
+				swap(array, left, right);
+				left++;
+				right--;
+			}
 		}
 		
 		return left;
