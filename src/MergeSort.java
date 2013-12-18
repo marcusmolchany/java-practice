@@ -7,38 +7,46 @@ public class MergeSort {
 	}
 	
 	public static void mergesort(int [] array, int [] helper, int low, int high) {
-		
-		// calculate middle of array
-		int middle = (high - low) / 2; // integer division so this will give us an int
-		
-		mergesort(array, helper, low, middle);     //mergesort lower half
-		mergesort(array, helper, middle + 1, high); //mergesort upper half
-		merge(array, helper, low, high);           //merge
+		if (low < high) {
+			// calculate middle of array
+			int middle = (low + high) / 2; // integer division so this will give us an int
+			
+			mergesort(array, helper, low, middle);     //mergesort lower half
+			mergesort(array, helper, middle + 1, high); //mergesort upper half
+			merge(array, helper, low, high);           //merge
+		}
 	}
 	
 	public static void merge(int [] array, int [] helper, int low, int high) {
 		// copy values into helper
-		int middle = (high - low) / 2;
+		for (int i = 0; i < array.length; i++) {
+			helper[i] = array[i];
+		}
+		
+		int middle = (low + high) / 2;
 		int helperLeft = low;
-		int helperRight = middle;
+		int helperRight = middle + 1;
+		int current = low;
 		
 		// loop through helper to make comparisions and copy into array
 		while (helperLeft <= middle && helperRight <= high) {
 			if (helper[helperLeft] <= helper[helperRight]) {
 				// lowest value in left array is lower than lower value in right array
-				array[helperLeft] = helper[helperLeft]; // copy lower left value into array
+				array[current] = helper[helperLeft]; // copy lower left value into array
 				helperLeft++; // move left pointer in helper forward 1
 			} else {
 				// lowest value in right array is lower than lower value in left array
-				array[helperRight] = helper[helperRight]; // copy lower right value into array
+				array[current] = helper[helperRight]; // copy lower right value into array
 				helperRight++;
 			}
+			current++;
 		}
 		
-		// copy remaining elements into array
+		// copy remaining elements from left side into array
+		// *NOTE* right side of array is already in place
 		int remaining = middle - helperLeft;
-		for (int i = 0; i < remaining; i++) {
-			array[helperLeft] = helper[helperLeft];
+		for (int i = 0; i <= remaining; i++) {
+			array[current + i] = helper[helperLeft + i];
 		}
 		
 	}
@@ -47,6 +55,7 @@ public class MergeSort {
 		for (int i:array) {
 			System.out.print(i + " ");
 		}
+		System.out.println();
 	}
 	
 	public static void main (String [] args) {
